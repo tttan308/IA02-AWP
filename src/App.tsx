@@ -1,11 +1,12 @@
-import "./App.css";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import AppRouter from './router';
 
-function App() {
-  return (
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-      X
-    </button>
-  );
-}
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <AppRouter />
+  </QueryClientProvider>
+);
 
 export default App;
