@@ -1,20 +1,100 @@
 import { useParams } from 'react-router-dom';
 import { usePhotoDetails } from '../hooks/usePhotoDetails';
-import { Box, Typography, CircularProgress } from '@mui/material';
+import { Box, Typography, CircularProgress, Avatar, Divider, Stack, Paper } from '@mui/material';
 
 const PhotoDetails = () => {
     const { id } = useParams<{ id: string }>();
-    const { data, isLoading } = usePhotoDetails(id!);
+    const { data, isLoading, isError } = usePhotoDetails(id!);
 
-    if (isLoading) return <CircularProgress />;
+    if (isLoading) {
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100vh',
+                }}
+            >
+                <CircularProgress size={60} thickness={5} />
+            </Box>
+        );
+    }
+
+    if (isError) {
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100vh',
+                }}
+            >
+                <Typography variant="h5" color="error">
+                    Failed to load photo details. Please try again.
+                </Typography>
+            </Box>
+        );
+    }
 
     return (
-        <Box>
-            <img src={data.urls.full} alt={data.alt_description} style={{ width: '100%' }} />
-            <Typography variant="h4">{data.alt_description || 'No Title'}</Typography>
-            <Typography variant="subtitle1">by {data.user.name}</Typography>
-            <Typography variant="body1">{data.description || 'No description available.'}</Typography>
-        </Box>
+        <Paper
+            elevation={3}
+            sx={{
+                maxWidth: 900,
+                margin: '40px auto',
+                padding: 4,
+                borderRadius: 3,
+                backgroundColor: '#f5f5f5',
+            }}
+        >
+
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    borderRadius: 3,
+                    marginBottom: 3,
+                    maxHeight: '60vh',
+                }}
+            >
+                <img
+                    src={data.urls.full}
+                    alt={data.alt_description || 'No Title'}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        maxHeight: '80vh',
+                        objectFit: 'contain',
+                        borderRadius: 8,
+                        transition: 'transform 0.3s',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
+                    onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                />
+            </Box>
+
+            <Stack spacing={2}>
+                <Typography variant="h4" fontWeight="bold" gutterBottom>
+                    {data.alt_description || 'Untitled'}
+                </Typography>
+
+                <Divider />
+
+                <Box display="flex" alignItems="center" gap={2}>
+                    <Avatar src={data.user.profile_image.medium} alt={data.user.name} />
+                    <Typography variant="subtitle1" color="text.secondary">
+                        by {data.user.name}
+                    </Typography>
+                </Box>
+
+                <Typography variant="body1" sx={{ marginTop: 2 }}>
+                    {data.description || 'No description available.'}
+                </Typography>
+            </Stack>
+        </Paper>
     );
 };
 

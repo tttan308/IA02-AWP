@@ -19,6 +19,7 @@ export const fetchPhotos = async (page: number) => {
 };
 
 export const fetchPhotoDetails = async (id: string) => {
+  console.log(`Fetching photo details for ${id}`);
   const response = await axios.get(`${API_URL}/photos/${id}`, {
     headers: { Authorization: `Client-ID ${ACCESS_KEY}` },
   });
