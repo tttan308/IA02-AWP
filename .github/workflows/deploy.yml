@@ -17,6 +17,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
 
+      - name: Create .env file
+        run: |
+          echo VITE_API_URL=${{ secrets.VITE_API_URL || '' }} >> .env
+          echo VITE_ACCESS_KEY=${{ secrets.VITE_ACCESS_KEY || '' }} >> .env
+
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
