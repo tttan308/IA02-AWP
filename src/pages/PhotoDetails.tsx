@@ -1,9 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { usePhotoDetails } from '../hooks/usePhotoDetails';
-import { Box, Typography, CircularProgress, Avatar, Divider, Stack, Paper } from '@mui/material';
+import { Box, Typography, CircularProgress, Avatar, Divider, Stack, Paper, Button } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Icon cho nút Back
 
 const PhotoDetails = () => {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate(); // Khởi tạo hook useNavigate
     const { data, isLoading, isError } = usePhotoDetails(id!);
 
     if (isLoading) {
@@ -49,6 +51,14 @@ const PhotoDetails = () => {
                 backgroundColor: '#f5f5f5',
             }}
         >
+            <Button
+                startIcon={<ArrowBackIcon />}
+                variant="outlined"
+                sx={{ marginBottom: 2 }}
+                onClick={() => navigate(-1)}
+            >
+                Back
+            </Button>
 
             <Box
                 sx={{
