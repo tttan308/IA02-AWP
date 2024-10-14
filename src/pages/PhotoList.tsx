@@ -23,7 +23,11 @@ const PhotoList = () => {
                 dataLength={data?.pages.flat().length ?? 0}
                 next={fetchNextPage}
                 hasMore={!!hasNextPage}
-                loader={<CircularProgress />}
+                loader={
+                    <Box display="flex" justifyContent="center">
+                        <CircularProgress />
+                    </Box>
+                }
                 style={{ overflow: 'hidden' }}
             >
                 <Grid container spacing={3} justifyContent="center">
