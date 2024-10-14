@@ -8,7 +8,7 @@ const AppRouter = () => (
         <Routes>
             <Route path="/IA02-AWP/" element={<PhotoList />} />
             <Route path="/IA02-AWP/photos/:id" element={<PhotoDetails />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/IA02-AWP/*" element={<NotFound />} />
         </Routes>
     </BrowserRouter>
 );
