@@ -24,6 +24,7 @@ const PhotoList = () => {
                 next={fetchNextPage}
                 hasMore={!!hasNextPage}
                 loader={<CircularProgress />}
+                style={{ overflow: 'hidden' }}
             >
                 <Grid container spacing={3} justifyContent="center">
                     {data?.pages.flat().map((photo) => (
