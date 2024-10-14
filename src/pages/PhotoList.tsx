@@ -4,9 +4,10 @@ import { usePhotos } from '../hooks/usePhotos';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const PhotoList = () => {
-    const { data, fetchNextPage, hasNextPage } = usePhotos();
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePhotos();
 
-    console.log(data);
+    const allPhotos = data?.pages.flat() ?? [];
+
     return (
         <Box sx={{ padding: 2 }}>
             <Typography
@@ -20,18 +21,18 @@ const PhotoList = () => {
             </Typography>
 
             <InfiniteScroll
-                dataLength={data?.pages.flat().length ?? 0}
+                dataLength={allPhotos.length}
                 next={fetchNextPage}
                 hasMore={!!hasNextPage}
                 loader={
-                    <Box display="flex" justifyContent="center">
+                    <Box display="flex" justifyContent="center" sx={{ marginTop: 2 }}>
                         <CircularProgress />
                     </Box>
                 }
                 style={{ overflow: 'hidden' }}
             >
                 <Grid container spacing={3} justifyContent="center">
-                    {data?.pages.flat().map((photo) => (
+                    {allPhotos.map((photo) => (
                         <Grid item key={photo.id}>
                             <PhotoCard
                                 id={photo.id}
@@ -41,8 +42,17 @@ const PhotoList = () => {
                         </Grid>
                     ))}
                 </Grid>
-
             </InfiniteScroll>
+
+            {!hasNextPage && !isFetchingNextPage && (
+                <Typography
+                    variant="h6"
+                    align="center"
+                    sx={{ marginTop: 4, color: 'gray' }}
+                >
+                    No more photos to load.
+                </Typography>
+            )}
         </Box>
     );
 };

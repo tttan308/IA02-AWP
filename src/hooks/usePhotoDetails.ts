@@ -5,5 +5,6 @@ export const usePhotoDetails = (id: string) => {
   return useQuery({
     queryKey: ['photo', id],
     queryFn: () => fetchPhotoDetails(id),
+    retry: 1,
   });
 };

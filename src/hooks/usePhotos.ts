@@ -7,5 +7,6 @@ export const usePhotos = () => {
     queryFn: ({ pageParam = 1 }) => fetchPhotos(pageParam),
     getNextPageParam: (_lastPage, allPages) => allPages.length + 1,
     initialPageParam: 1,
+    retry: 1,
   });
 };
